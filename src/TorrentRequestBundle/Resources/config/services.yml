@@ -1,0 +1,10 @@
+services:
+#    torrent_request.example:
+#        class: TorrentRequestBundle\Example
+#        arguments: ["@service_id", "plain_value", %parameter%]
+    t411_manager:
+        class: TorrentRequestBundle\Utils\T411Manager
+        arguments: ["%t411%","@service_container"]
+    transmission_manager:
+        class: TorrentRequestBundle\Utils\TransmissionManager
+        arguments: ["%transmission%","@service_container"]

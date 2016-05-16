@@ -1,0 +1,78 @@
+{% extends 'TorrentRequestBundle::base.html.twig' %}
+
+{% block content %}
+    <div class="row">
+        <div id="series" class="col-md-6 col-xs-12">
+            <h1>Series</h1>
+            <hr>
+            Click sur les buttons -> une liste deroulante s'ouvre avec les episodes dedans
+            <br>
+            <br>
+            {% for name, serie in series %}
+                <div class="row text-center">
+                    <div type="button" class="btn btn-info" data-toggle="collapse" data-target="#{{name|replace({" ":"_"})}}">{{name}}</div>
+                </div>
+                <br>
+                <div id="{{name|replace({" ":"_"})}}" class="row collapse">
+                    {% for episode in serie %}
+                        <div class="row">
+                            <div class="col-xs-4">
+                                {{ episode }}
+                            </div>
+                            <div class="col-xs-4">
+                                {% if episode.status == 0 %}
+                                    <span style="color:red;">Pas trouvé</span>
+                                {% elseif episode.status == 1 %}
+                                    <span style="color:orange;">Trouvé</span>
+                                {% elseif episode.status == 2 %}
+                                    <span style="color:green;">C'est là</span>
+                                {% endif %}
+                            </div>
+                            <div class="col-xs-4">
+                                <button class="btn btn-default">
+                                    <a href='{{ path("torrent_request_delete", {"type":"serie", "id": episode.id}) }}'>
+                                        Supprimer
+                                    </a>
+                                </button>
+                            </div>
+                        </div>
+                        </br>
+                    {% endfor %}
+                </div>
+                <br>
+            {% endfor %}
+            
+        </div>
+        <div id="movies" class="col-md-6 col-xs-12">
+            <h1>Films</h1>
+            <hr>
+            {% for movie in movies %}
+                <div class="row">
+                    <div class="col-xs-4">
+                        {{ movie }}
+                    </div>
+                    <div class="col-xs-4">
+                        {% if movie.status == 0 %}
+                            <span style="color:red;">Pas trouvé</span>
+                        {% elseif movie.status == 1 %}
+                            <span style="color:orange;">Trouvé</span>
+                        {% elseif movie.status == 2 %}
+                            <span style="color:green;">C'est là</span>
+                        {% endif %}
+                    </div>
+                    <div class="col-xs-4">
+                        <button class="btn btn-default">
+                            <a href='{{ path("torrent_request_delete", {"type":"movie", "id": movie.id}) }}'>
+                                Supprimer
+                            </a>
+                        </button>
+                    </div>
+                </div>
+                </br>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="row">
+        <div id="list" class="col-xs-offset-3 col-xs-6"></div>
+    </div>
+{% endblock %}

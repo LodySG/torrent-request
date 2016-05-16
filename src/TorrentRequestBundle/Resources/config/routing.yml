@@ -1,0 +1,20 @@
+#torrent_request_homepage:
+#    path:     /
+#    defaults: { _controller: TorrentRequestBundle:Default:index }
+#    
+#torrent_request_serie:
+#    path:     /serie/{id}
+#    defaults: { _controller: TorrentRequestBundle:Default:serie, id: 0}
+#    requirements:
+#        page:  \d+
+#torrent_request_movie:
+#    path:     /movie/{id}
+#    defaults: { _controller: TorrentRequestBundle:Default:movie, id: 0}
+#    requirements:
+#        page:  \d+
+#torrent_request_delete:
+#    path:     /delete/{type}/{id}
+#    defaults: { _controller: TorrentRequestBundle:Default:delete}
+#    requirements:
+#        type:  serie|movie
+#        id:     \d+

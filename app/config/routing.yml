@@ -1,0 +1,3 @@
+torrent_request:
+    resource: "@TorrentRequestBundle/Controller/"
+    type: annotation

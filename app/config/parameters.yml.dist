@@ -1,0 +1,31 @@
+parameters:
+    database_host: 127.0.0.1
+    database_port: 3306
+    database_name: torrent-request
+    database_user: torrent-request
+    database_password: nf6aRLGjySTn46VM
+    mailer_transport: smtp
+    mailer_host: 127.0.0.1
+    mailer_user: null
+    mailer_password: null
+    secret: a4963af8fa9065408bb5f125a05f424153d3e22b
+    t411:
+        url_api: 'https://api.t411.ch'
+        auth_uri: /auth
+        user_info_uri: /users/profile
+        torrent_search_uri: /torrents/search
+        torrent_download_uri: /torrents/download
+        torrent_details_uri: /torrents/details
+        categories_uri: /categories/tree
+        terms_uri: /terms/tree
+        username: 'user_t411'
+        password: 'password'
+    transmission:
+        url_api: 'url_transmission'
+        api_uri: /transmission/rpc
+        username: 'user_transmission'
+        password: 'password_transmission'
+    files_path:
+        mount_dir: "/mnt/transmission_files_completed/"
+        destination_dir: "/home/minidlna_files/"
+        lock_path: "/var/lock/"
