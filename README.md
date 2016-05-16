@@ -1,5 +1,2 @@
-torrent-request
-===============
-
-A Symfony project created on February 13, 2016, 12:33 am.
 # torrent-request
+Le chainon manquant entre T411 et Transmission
