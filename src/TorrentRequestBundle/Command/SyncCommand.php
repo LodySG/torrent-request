@@ -57,7 +57,7 @@ class SyncCommand extends ContainerAwareCommand
                     $dest_path = $destination_directory.$video->getOriginalFilename();
                     
                     if($fs->exists($file_path)){
-                        $commandlinesync = 'rsync -rvz --partial "'.$file_path.'" '.$destination_directory;
+                        $commandlinesync = 'rsync -rvz --remove-source-files "'.$file_path.'" '.$destination_directory;
                         $process = new Process($commandlinesync);
                         $process->setTimeout(7200);
                         $process->run(function ($type, $buffer){
@@ -68,7 +68,6 @@ class SyncCommand extends ContainerAwareCommand
                             }
                         });
                         if($process->isSuccessful()){
-                            
                             $commandlineremove = 'rm -rf "'.$file_path.'"';
                             $process = new Process($commandlineremove);
                             $process->setTimeout(3600);

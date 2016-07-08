@@ -72,7 +72,9 @@ class SearchCommand extends ContainerAwareCommand
                     break;
                 case 'serie':
                     $torrent = $t411_manager->searchSerieBySeasonEpisode($video->getName(), $video->getSeason(), $video->getEpisode());
+                    
                     if ($torrent) {
+                        
                         // Get Metainfo
                         $metainfo = $t411_manager->getDownloadTorrent($torrent["id"]);
                         //Launch download
@@ -116,7 +118,13 @@ class SearchCommand extends ContainerAwareCommand
                             echo date("d-m-Y H:i:s")." ".$video->getOriginalFilename()."\n";
                             
                             $em->merge($video);
-                            $em->persist($new_episode);
+                            
+                            $episode_in_db = $serie_repository->findOneBy(array("name" => $new_episode->getName(),
+                                                                                 "season" => $new_episode->getSeason(),
+                                                                                 "episode" => $new_episode->getEpisode()
+                                                                                 ));
+                            if($episode_in_db == null)
+                                $em->persist($new_episode);
                         }
                     }
                     break;
