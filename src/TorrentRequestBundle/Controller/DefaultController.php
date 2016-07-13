@@ -75,6 +75,9 @@ class DefaultController extends Controller
         $em = $this->getDoctrine()->getManager();
         $serie_repository = $em->getRepository('TorrentRequestBundle:Serie');
         
+        $ar_view["themoviedb"]  = $this->getParameter("themoviedb");
+
+
         if($id != null)
         {
             $serie = $serie_repository->find($id);
@@ -115,6 +118,8 @@ class DefaultController extends Controller
         $em = $this->getDoctrine()->getManager();
         $movie_repository = $em->getRepository('TorrentRequestBundle:Movie');
         
+        $ar_view["themoviedb"]  = $this->getParameter("themoviedb");
+
         if($id != null)
         {
             $movie = $movie_repository->find($id);

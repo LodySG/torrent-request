@@ -51,8 +51,19 @@ class T411Manager
             ]
         ]);
         $ar_user = $this->getJson($response);
-        $this->token = $ar_user["token"];
-        $this->uid = $ar_user["uid"];
+
+        //dump($ar_user);
+        //die();
+        
+        if(isset($ar_user["token"]))
+        {
+            $this->token = $ar_user["token"];
+            $this->uid = $ar_user["uid"];
+        }
+        else {
+            throw new \Exception("Il y a un soucis avec T411 !!!", 1);
+        }
+        
     }
 
     public function getRatio()

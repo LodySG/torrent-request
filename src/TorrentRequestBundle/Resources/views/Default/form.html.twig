@@ -1,10 +1,60 @@
 {% extends 'TorrentRequestBundle::base.html.twig' %}
 {% form_theme form 'bootstrap_3_layout.html.twig' %}
 
+{% block css %}
+            <!-- Select2 theme -->
+            <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2-bootstrap-css/1.4.6/select2-bootstrap.min.css">
+{% endblock %}
+
 {% block content %}
     {{ form_start(form) }}
     {{ form_widget(form) }}
     <input type="submit" value="Valider"
            class="btn btn-default pull-right" />
     {{ form_end(form) }}
+{% endblock %}
+
+{% block js %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.js"></script>
+    <script>
+    $(document).ready(function() {
+        var page = {% if app.request.attributes.get("_route") == "torrent_request_serie" %} "tv" {% else %} "movie" {% endif %};
+        var api_key = "{{ themoviedb.api_key }}";
+        var base_url = "{{ themoviedb.base_url }}";
+        var images_url = "{{ themoviedb.images_url }}";
+        var request_input;
+
+        if(page == "tv")
+        {
+            request_input = $("#serie_name");
+        }
+        else
+        {
+            request_input = $("#movie_name");
+        }
+
+        request_input.select2({
+            theme: "bootstrap",
+            ajax: {
+                url: base_url+page,
+                data: function (params){
+                    var query = {
+                        query: this.attr("title"),
+                        api_key: api_key
+                    }
+                },
+                processResults: function (data) {
+                    return {
+                        results: data.items
+                    };
+                }
+            },
+            escapeMarkup: function (markup) { return markup; }, // let our custom formatter work
+            minimumInputLength: 3,
+        });
+
+        alert(request_input);
+    });
+    </script>
 {% endblock %}

@@ -18,14 +18,18 @@ parameters:
         torrent_details_uri: /torrents/details
         categories_uri: /categories/tree
         terms_uri: /terms/tree
-        username: 'user_t411'
+        username: 'username_t411'
         password: 'password'
     transmission:
-        url_api: 'url_transmission'
+        url_api: https://lodysaintgermain.com
         api_uri: /transmission/rpc
         username: 'user_transmission'
-        password: 'password_transmission'
+        password: 'password'
     files_path:
-        mount_dir: "/mnt/transmission_files_completed/"
-        destination_dir: "/home/minidlna_files/"
+        mount_dir: "/mnt/kimsufi/"
+        destination_dir: "/home/minidlna/"
         lock_path: "/var/lock/"
+    themoviedb:
+        api_key: 'api_key'
+        base_url: 'base_url'
+        images_url: 'images_url'
