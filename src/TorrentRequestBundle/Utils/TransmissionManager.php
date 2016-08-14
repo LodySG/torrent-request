@@ -99,14 +99,5 @@ class TransmissionManager
         return array("X-Transmission-Session-Id" => $this->xt_id, "authorization" => $this->auth);
     }
     
-    /*
-    "rpc-authentication-required": true,
-    "rpc-bind-address": "0.0.0.0",
-    "rpc-enabled": true,
-    "rpc-password": "{c51066afceeee5de46dd7d3fae6c48ec9bb3008e/zaWUFmG",
-    "rpc-port": 9494,
-    "rpc-url": "/transmission/",
-    "rpc-username": "lodydody",
-    "rpc-whitelist": "127.0.0.1",
-    */
+
 }
