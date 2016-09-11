@@ -5,6 +5,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
         <title>Torrent-request</title>
+        <link rel="stylesheet" href="http://code.jquery.com/ui/1.12.0/themes/base/jquery-ui.css">
         <!-- Latest compiled and minified CSS -->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
         <!-- Optional theme -->
@@ -38,7 +39,7 @@
                             <a href="{{ path('torrent_request_homepage') }}">Etats{% if app.request.attributes.get("_route") == "torrent_request_homepage" %}<span class="sr-only">(current)</span>{% endif %}</a>
                         </li>
                         <li {% if app.request.attributes.get("_route") == "torrent_request_serie" %}class="active"{% endif %}>
-                            <a href="{{ path('torrent_request_serie') }}">Serie{% if app.request.attributes.get("_route") == "torrent_request_serie" %}"<span class="sr-only">(current)</span>{% endif %}</a>
+                            <a href="{{ path('torrent_request_serie') }}">Serie{% if app.request.attributes.get("_route") == "torrent_request_serie" %}<span class="sr-only">(current)</span>{% endif %}</a>
                         </li>
                         <li {% if app.request.attributes.get("_route") == "torrent_request_movie" %}class="active"{% endif %}>
                             <a href="{{ path('torrent_request_movie') }}">Film{% if app.request.attributes.get("_route") == "torrent_request_movie" %}<span class="sr-only">(current)</span>{% endif %}</a>
@@ -53,6 +54,7 @@
         
         <!-- Latest compiled and minified JavaScript -->
         <script src="https://code.jquery.com/jquery-2.2.2.min.js" integrity="sha256-36cp2Co+/62rEAAYHLmRCPIych47CvdM+uTBJwSzWjI=" crossorigin="anonymous"></script>
+        <script   src="http://code.jquery.com/ui/1.12.0/jquery-ui.min.js"   integrity="sha256-eGE6blurk5sHj+rmkfsGYeKyZx3M4bG+ZlFyA7Kns7E="   crossorigin="anonymous"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
         
         {% block js %}

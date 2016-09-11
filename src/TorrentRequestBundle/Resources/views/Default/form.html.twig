@@ -1,60 +1,101 @@
 {% extends 'TorrentRequestBundle::base.html.twig' %}
 {% form_theme form 'bootstrap_3_layout.html.twig' %}
 
-{% block css %}
-            <!-- Select2 theme -->
-            <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
-            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2-bootstrap-css/1.4.6/select2-bootstrap.min.css">
-{% endblock %}
-
 {% block content %}
     {{ form_start(form) }}
     {{ form_widget(form) }}
     <input type="submit" value="Valider"
            class="btn btn-default pull-right" />
     {{ form_end(form) }}
+
 {% endblock %}
 
 {% block js %}
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.js"></script>
     <script>
-    $(document).ready(function() {
-        var page = {% if app.request.attributes.get("_route") == "torrent_request_serie" %} "tv" {% else %} "movie" {% endif %};
-        var api_key = "{{ themoviedb.api_key }}";
-        var base_url = "{{ themoviedb.base_url }}";
-        var images_url = "{{ themoviedb.images_url }}";
-        var request_input;
+        
+        $(function() {
+            
+            var api_key = "{{ themoviedb.api_key }}";
+            var base_url = "{{ themoviedb.base_url }}";
+            var images_url = "{{ themoviedb.images_url }}";
+            var search_uri = "{{ themoviedb.search_uri }}";
+            var configuration_uri = "{{ themoviedb.configuration_uri }}";
+            var language = "fr-FR";
+            var category = {% if app.request.attributes.get("_route") == "torrent_request_serie" %} "tv" {% else %} "movie" {% endif %};
+            var url = base_url + search_uri + "/" + category;
+            var request_input;
 
-        if(page == "tv")
-        {
-            request_input = $("#serie_name");
-        }
-        else
-        {
-            request_input = $("#movie_name");
-        }
+            $.get({
+                url: base_url + configuration_uri,
+                data: {api_key: api_key},
+                success: function(donnee){ console.log(donnee) }
+            });
 
-        request_input.select2({
-            theme: "bootstrap",
-            ajax: {
-                url: base_url+page,
-                data: function (params){
-                    var query = {
-                        query: this.attr("title"),
-                        api_key: api_key
+            if(category == "tv")
+                request_input = $("#serie_name");
+            else
+                request_input = $("#movie_name");
+
+            request_input.autocomplete({
+                minLength: 4,
+                source: function(request, response){
+                    
+                    //console.log(request);
+
+                    var data = {
+                        query: request.term,
+                        api_key: api_key,
+                        language: language,
+                        include_adult: false
                     }
-                },
-                processResults: function (data) {
-                    return {
-                        results: data.items
-                    };
+
+                    $.get(url, data, function(donnee){
+                        var display = new Array();
+                        var results = donnee.results;
+                        
+                        //console.log(results);
+
+                        results.forEach(function(obj) {
+                            
+                            if(category == "tv")
+                            {
+                                display.push(
+                                    {label: obj.original_name, value: obj.original_name, poster: obj.poster_path, backdrop: obj.backdrop_path, overview: obj.overview}
+                                );
+                            }  
+                            else
+                            {
+                                display.push(
+                                    {label: obj.original_title, value: obj.original_title, poster: obj.poster_path, backdrop: obj.backdrop_path, overview: obj.overview}
+                                );
+                            }
+                        }, this);
+
+                        console.log(display);
+                        //throw new Error("killed !!!");
+
+                        response(display);
+                    });
                 }
-            },
-            escapeMarkup: function (markup) { return markup; }, // let our custom formatter work
-            minimumInputLength: 3,
+                //response: ,
+                //select: 
+            }).autocomplete( "instance" )._renderItem = function( ul, item ) {
+                
+                    return $( "<li>" )
+                        .attr( "data-value", item.value )
+                        .attr( "data-placement", "auto" )
+                        .attr( "data-toggle", "tooltip" )
+                        .attr( "title", "<div><h3>" + item.value + "</h3><br><span><img src='"+ images_url + "w154/" + item.poster + "' alt='"+ item.value +"'><br><div>" + item.overview + "</div></span></div><br>")
+                        .append( "<div>" + item.label + "</div>")
+                        .appendTo( ul )
+                        .tooltip({
+                            html: true,
+                            trigger: "focus hover blur"
+                        });
+
+            };
+
         });
 
-        alert(request_input);
-    });
     </script>
 {% endblock %}

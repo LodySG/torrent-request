@@ -9,6 +9,7 @@ parameters:
     mailer_user: null
     mailer_password: null
     secret: a4963af8fa9065408bb5f125a05f424153d3e22b
+    download_limit: 10
     t411:
         url_api: 'https://api.t411.ch'
         auth_uri: /auth
