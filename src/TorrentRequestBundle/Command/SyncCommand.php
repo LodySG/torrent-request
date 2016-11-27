@@ -67,12 +67,13 @@ class SyncCommand extends ContainerAwareCommand
                                 echo date("d-m-Y H:i:s").' '.$buffer;
                             }
                         });
-                        if($process->isSuccessful()){
+                        if ($process->isSuccessful()) {
                             $commandlineremove = 'rm -rf "'.$file_path.'"';
                             $process = new Process($commandlineremove);
                             $process->setTimeout(3600);
-                            
+
                             $video->setStatus(2);
+
                             $em->merge($video);
                             $em->flush();
                         }

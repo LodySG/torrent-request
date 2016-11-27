@@ -3,6 +3,7 @@
 namespace TorrentRequestBundle\Entity;
 
 use Doctrine\ORM\EntityRepository;
+use TorrentRequestBundle\Entity\Serie;
 
 /**
  * SerieRepository
@@ -12,4 +13,31 @@ use Doctrine\ORM\EntityRepository;
  */
 class SerieRepository extends EntityRepository
 {
+        public function getSeriesState()
+        {
+            $dateNow = new \DateTime();
+            $em = $this->getEntityManager();
+            
+            $series = $this->getEntityManager()
+                    ->createQuery(
+                        'SELECT s FROM TorrentRequestBundle:Serie s'
+                    )
+                    ->getResult();
+            
+            $serie_state = array();
+
+            foreach ($series as $serie) {
+                if(!array_key_exists($serie->getName(),$serie_state))
+                    $serie_state[$serie->getName()] = 0;
+                
+                if($serie->getStatus() > 0)
+                {
+                    $nb = $serie_state[$serie->getName()];
+                    $nb = $nb + 1;
+                    $serie_state[$serie->getName()] = $nb;
+                }
+            }
+
+            return $serie_state;
+        }
 }

@@ -19,17 +19,50 @@
             var base_url = "{{ themoviedb.base_url }}";
             var images_url = "{{ themoviedb.images_url }}";
             var search_uri = "{{ themoviedb.search_uri }}";
+            var tv_uri = "{{ themoviedb.tv_uri }}";
+            var season_uri = "{{ themoviedb.season_uri }}";
             var configuration_uri = "{{ themoviedb.configuration_uri }}";
             var language = "fr-FR";
             var category = {% if app.request.attributes.get("_route") == "torrent_request_serie" %} "tv" {% else %} "movie" {% endif %};
-            var url = base_url + search_uri + "/" + category;
+            var search_url = base_url + search_uri + "/" + category;
             var request_input;
-
+            /*
             $.get({
                 url: base_url + configuration_uri,
                 data: {api_key: api_key},
                 success: function(donnee){ console.log(donnee) }
             });
+            */
+
+            var getLastEpisode = function(tv_id) {
+                
+                var tv_url = base_url + tv_uri + '/' + tv_id;
+                var season_number = 0;
+                var episode_number = 0;
+
+                $.ajaxSetup({async: false});
+                
+                $.get(tv_url, {api_key: api_key}, function(res){
+                    season_number = res.number_of_seasons;
+                });
+
+                var season_url = base_url + tv_uri + '/' + tv_id + '/' + season_uri + '/' + season_number;
+
+                $.get(season_url, {api_key: api_key}, function(res){
+                    var now = new Date();
+                    var episodes = res.episodes.filter(function(item){
+                        return new Date(item.air_date) < now;
+                    });
+
+                    episode = episodes.reduce(function (p, v) {
+                            return  new Date(p.air_date) > new Date(v.air_date) ? p : v ;
+                        });
+
+                    episode_number = episode.episode_number;
+                });
+
+                return {season: season_number, episode: episode_number};
+            };
 
             if(category == "tv")
                 request_input = $("#serie_name");
@@ -49,7 +82,7 @@
                         include_adult: false
                     }
 
-                    $.get(url, data, function(donnee){
+                    $.get(search_url, data, function(donnee){
                         var display = new Array();
                         var results = donnee.results;
                         
@@ -59,8 +92,10 @@
                             
                             if(category == "tv")
                             {
+                                
+                                
                                 display.push(
-                                    {label: obj.original_name, value: obj.original_name, poster: obj.poster_path, backdrop: obj.backdrop_path, overview: obj.overview}
+                                    {tv_id: obj.id, label: obj.original_name, value: obj.original_name, poster: obj.poster_path, backdrop: obj.backdrop_path, overview: obj.overview}
                                 );
                             }  
                             else
@@ -71,7 +106,7 @@
                             }
                         }, this);
 
-                        console.log(display);
+                        //console.log(display);
                         //throw new Error("killed !!!");
 
                         response(display);
@@ -80,12 +115,20 @@
                 //response: ,
                 //select: 
             }).autocomplete( "instance" )._renderItem = function( ul, item ) {
-                
+
+                    var season_tag = "";
+
+                    if("tv_id" in item)
+                    {
+                        var last_episode_obj = getLastEpisode(item.tv_id);
+                        season_tag = "<p>Derniere episode : S " + last_episode_obj.season + " E " + last_episode_obj.episode + "</p><br>";
+                    }
+
                     return $( "<li>" )
                         .attr( "data-value", item.value )
                         .attr( "data-placement", "auto" )
                         .attr( "data-toggle", "tooltip" )
-                        .attr( "title", "<div><h3>" + item.value + "</h3><br><span><img src='"+ images_url + "w154/" + item.poster + "' alt='"+ item.value +"'><br><div>" + item.overview + "</div></span></div><br>")
+                        .attr( "title", "<div><h3>" + item.value + "</h3><br>" + season_tag + "<span><img src='"+ images_url + "w154/" + item.poster + "' alt='"+ item.value +"'><br><div>" + item.overview + "</div></span></div><br>")
                         .append( "<div>" + item.label + "</div>")
                         .appendTo( ul )
                         .tooltip({

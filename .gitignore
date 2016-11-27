@@ -11,3 +11,5 @@
 /bin/
 /composer.phar
 *.DS_Store
+*.php~
+torrent_request_parameters.yml

@@ -169,9 +169,9 @@ class DefaultController extends Controller
                 
                 if ($movie->getStatus() == 2) {
                     $fs->remove($dest_dir.$movie->getOriginalFilename());
-                    $transmission_manager->removeTorrent($movie->getTransmissionId());
+                    //$transmission_manager->removeTorrent($movie->getTransmissionId());
                 }elseif ($movie->getStatus() == 1) {
-                    $fs->remove($mount_dir.$movie->getOriginalFilename());
+                    //$fs->remove($mount_dir.$movie->getOriginalFilename());
                     $transmission_manager->removeTorrent($movie->getTransmissionId());
                 }
                 
@@ -183,13 +183,13 @@ class DefaultController extends Controller
                 
                 if ($serie->getStatus() == 2) {
                     $fs->remove($dest_dir.$serie->getOriginalFilename());
-                    $transmission_manager->removeTorrent($serie->getTransmissionId());
+                    //$transmission_manager->removeTorrent($serie->getTransmissionId());
                 }elseif ($serie->getStatus() == 1) {
-                    $fs->remove($mount_dir.$serie->getOriginalFilename());
+                    //$fs->remove($mount_dir.$serie->getOriginalFilename());
                     $transmission_manager->removeTorrent($serie->getTransmissionId());
                 }
                 
-                $transmission_manager->removeTorrent($serie->getTransmissionId());
+                //$transmission_manager->removeTorrent($serie->getTransmissionId());
                 $em->remove($serie);
                 break;
             default:

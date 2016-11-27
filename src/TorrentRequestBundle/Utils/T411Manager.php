@@ -85,7 +85,7 @@ class T411Manager
 
     public function getDownloadTorrent($id_torrent)
     {
-        $fs = new Filesystem(); 
+        //$fs = new Filesystem(); 
         
         $response = $this->client->request('GET', $this->torrent_download_uri.'/'.$id_torrent, $this->getAuthorization());
         $file_stream = base64_encode($response->getBody()->getContents());
