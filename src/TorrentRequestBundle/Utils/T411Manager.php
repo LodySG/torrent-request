@@ -114,7 +114,7 @@ class T411Manager
         $serie_quality_str .= "&term[7][]=12"; // TVripHD 720 [Rip HD depuis Source Tv HD]
         $serie_quality_str .= "&term[7][]=1174"; // Web-Dl 1080
         $serie_quality_str .= "&term[7][]=1175"; // Web-Dl 720
-        
+
         $serie_lang_str = "";
         $serie_lang_str .= "&term[51][]=1216"; // VOSTFR
         $serie_lang_str .= "&term[51][]=1212"; // Multi (Français inclus)
@@ -127,39 +127,39 @@ class T411Manager
         $season_terms = $terms[45]["terms"];
         $episode_terms = $terms[46]["terms"];
         
-        ksort($season_terms);
-        ksort($episode_terms);
-        
-        $i = 1;
+        $season_str = "Saison ".str_pad($season, 2, "0", STR_PAD_LEFT);
+        $episode_str = "Episode ".str_pad($episode, 2, "0", STR_PAD_LEFT);
         
         foreach($season_terms as $key_season => $season_label)
         {
-           if($i == $season)
+           if($season_label == $season_str)
            {
                $season_term_id = $key_season;
                break;
            }
-           $i++;
         }
-        
-        $i = 0;
         
         foreach($episode_terms as $key_episode => $episode_label)
         {
-           if($i == $episode)
+           if($episode_label == $episode_str)
            {
                $episode_term_id = $key_episode;
                break;
            }
-           $i++;
         }
         
+        //dump($season_term_id);
+        //dump($episode_term_id);
+        //die();
+
         $str_search = $title.'?cat='.$serie_cat.'&term[45][]='.$season_term_id.'&term[46][]='.$episode_term_id.$serie_quality_str.$serie_lang_str.'&limit=30';
         
+        //var_dump($str_search);
+
         $ar_series_result = $this->search($str_search);
         
         usort($ar_series_result, array($this, "compareSeeders"));
-        
+
         if($ar_series_result)
             return $ar_series_result[0];
         else

@@ -11,7 +11,7 @@ parameters:
     secret: a4963af8fa9065408bb5f125a05f424153d3e22b
     download_limit: 10
     t411:
-        url_api: 'https://api.t411.li'
+        url_api: 'https://api.t411.ai'
         auth_uri: /auth
         user_info_uri: /users/profile
         torrent_search_uri: /torrents/search
