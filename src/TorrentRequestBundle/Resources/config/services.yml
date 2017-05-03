@@ -8,3 +8,9 @@ services:
     transmission_manager:
         class: TorrentRequestBundle\Utils\TransmissionManager
         arguments: ["%transmission%","@service_container"]
+    ifttt_manager_layla:
+        class: TorrentRequestBundle\Utils\IFTTTManager
+        arguments: ["%ifttt%","layla_key","@service_container"]
+    ifttt_manager_lody:
+        class: TorrentRequestBundle\Utils\IFTTTManager
+        arguments: ["%ifttt%","lody_key","@service_container"]

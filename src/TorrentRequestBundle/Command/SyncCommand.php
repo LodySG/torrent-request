@@ -24,6 +24,10 @@ class SyncCommand extends ContainerAwareCommand
     {
         $fs = new Filesystem();
         $files_path = $this->getContainer()->getParameter('files_path');
+        $ifttt_manager_lody = $this->getContainer()->get('ifttt_manager_lody');
+        $ifttt_manager_layla = $this->getContainer()->get('ifttt_manager_layla');
+        $logger = $this->getContainer()->get('logger');
+
         $lock_path = $files_path['lock_path'];
         $lock_file = $lock_path.$this->getName();
         
@@ -76,6 +80,18 @@ class SyncCommand extends ContainerAwareCommand
 
                             $em->merge($video);
                             $em->flush();
+                            
+                            try
+                            {
+                                $ifttt_manager_layla->sendNotification($video->__toString());
+                                $ifttt_manager_lody->sendNotification($video->__toString());
+                            }
+                            catch(\Exception $ex)
+                            {
+                                $logger->error($ex->getMessage());
+                                dump($ex);
+                            }
+                    
                         }
                     }
                 }

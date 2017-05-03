@@ -23,8 +23,7 @@ class TestCommand extends ContainerAwareCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $transmission_manager = $this->getContainer()->get('transmission_manager');
-        
-        $transmission_manager->getAuth();
+        $ifttt_manager = $this->getContainer()->get('ifttt_manager_lody');
+        $ifttt_manager->sendNotification("Test");
     }
 }
